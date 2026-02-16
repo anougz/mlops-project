@@ -8,7 +8,7 @@
 ---
 
 ## 📝 Project Description
-This project will focus on a basic MLOps pipeline addressing pollution in Beijing, using the corresponding dataset, and define different machine learning model where we can predict de value of pollution (Y) in function of the others variables (X). 
+This project will focus on a basic MLOps pipeline addressing pollution in Beijing, using the corresponding dataset, and define different machine learning model where we can predict de value of pollution (Y) in function of the others variables (X).
 
 ## 🎯 Task Definition
 * **Type of problem**: Time series regression (Time Series Forecasting)
@@ -28,7 +28,7 @@ The data includes the date-time, the pollution called PM2.5 concentration, and t
 This project uses **UV** for fast and reproducible dependency management.
 
 ### Prerequisites
-* Python 3.12+ 
+* Python 3.12+
 * [UV](https://docs.astral.sh/uv/) installed on your machine.
 
 ### Installation
@@ -36,3 +36,50 @@ This project uses **UV** for fast and reproducible dependency management.
 ```bash
    git clone [https://github.com/anougz/mlops-project.git](https://github.com/your-account/your-repo.git)
    cd your-repo
+<<<<<<< Updated upstream
+=======
+   uv sync
+   uv run pre-commit install
+```
+
+## 🧪 Testing & Quality Assurance
+
+We use pytest for unit testing and pytest-cov for coverage analysis.
+
+    Current Coverage: 63%
+
+    Linting: Automated with Ruff.
+
+    Pre-commit Hooks: Enforces code quality, formatting, and end-of-file consistency before every commit.
+
+To run tests and see the coverage report:
+Bash
+
+uv run pytest --cov=src tests/
+
+## 📊 Experiment Tracking (MLflow)
+
+The training pipeline is fully integrated with MLflow to track hyperparameters (test size, model type) and metrics (RMSE, R2).
+
+    Run Training:
+    Bash
+
+    uv run python src/train.py
+
+    Visualize Results:
+    Bash
+
+    uv run mlflow ui
+
+    Access the dashboard at http://localhost:5000.
+
+## 📁 Project Structure
+
+    src/: Modular source code (data loading, preprocessing, training).
+
+    tests/: Unit and integration tests.
+
+    data/: Dataset storage.
+
+    .pre-commit-config.yaml: Hooks configuration.
+>>>>>>> Stashed changes
