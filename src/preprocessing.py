@@ -1,6 +1,9 @@
-def preprocess_pollution(df):
-    # Remplissage des NaN (très courant dans ce dataset)
-    df['pollution'] = df['pollution'].fillna(0)
-    # Encodage de la direction du vent (Catégorique -> Numérique)
-    df = pd.get_dummies(df, columns=['wnd_dir'])
-    return df
+import pandas as pd
+
+def preprocess_data(df):
+    df_clean = df.copy()
+    if 'pollution' in df_clean.columns:
+        df_clean['pollution'] = df_clean['pollution'].fillna(0)
+    if 'wnd_dir' in df_clean.columns:
+        df_clean = pd.get_dummies(df_clean, columns=['wnd_dir'])
+    return df_clean

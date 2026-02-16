@@ -8,7 +8,7 @@
 ---
 
 ## 📝 Project Description
-This project will focus on a basic MLOps pipeline addressing pollution in Beijing, using the corresponding dataset, and define different machine learning model where we can predict de value of pollution (Y) in function of the others variables (X). 
+This project will focus on a basic MLOps pipeline addressing pollution in Beijing, using the corresponding dataset, and define different machine learning model where we can predict de value of pollution (Y) in function of the others variables (X).
 
 ## 🎯 Task Definition
 * **Type of problem**: Time series regression (Time Series Forecasting)
@@ -28,7 +28,7 @@ The data includes the date-time, the pollution called PM2.5 concentration, and t
 This project uses **UV** for fast and reproducible dependency management.
 
 ### Prerequisites
-* Python 3.12+ 
+* Python 3.12+
 * [UV](https://docs.astral.sh/uv/) installed on your machine.
 
 ### Installation

@@ -5,9 +5,16 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "mlflow>=1.27.0",
     "numpy>=2.4.1",
     "pandas>=3.0.0",
+    "pip>=26.0.1",
+    "pre-commit>=4.5.1",
+    "protobuf<5.0.0",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
     "scikit-learn>=1.8.0",
+    "setuptools>=82.0.0",
 ]
 
 [dependency-groups]
@@ -15,3 +22,7 @@ dev = [
     "pytest>=9.0.2",
     "ruff>=0.14.14",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
