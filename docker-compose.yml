@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  # ── MLflow tracking server ─────────────────────────────────
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:///mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+
+  # ── FastAPI inference service ──────────────────────────────
+  api:
+    build:
+      context: .
+      target: inference        # use the inference stage from the Dockerfile
+    container_name: pollution-api
+    ports:
+      - "8000:8000"
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MODEL_URI: models:/lstm-pollution/Production
+    depends_on:
+      - mlflow
+    restart: on-failure
+
+volumes:
+  mlflow_data:
