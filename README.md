@@ -1,4 +1,4 @@
-# MLOps Project Name 🚀
+# Air Pollution Forecasting - MLOps Project🚀
 *A project developed as part of the MLOps course - Winter 2026*
 
 ## 👥 Team Members
@@ -73,6 +73,26 @@ The training pipeline is fully integrated with MLflow to track hyperparameters (
 
     Access the dashboard at http://localhost:5000.
 
+## 🔌 API & Deployment
+
+The project includes a FastAPI application for real-time model inference.
+
+1. Serve the API locally:
+```PowerShell
+$env:LOCAL_MODEL_PATH="models/model.pkl"
+uv run python -m uvicorn src.api:app --reload
+```
+
+2. API Documentation:
+Once the server is running, access the interactive Swagger UI at http://localhost:8000/docs.
+
+3. Docker Support:
+The application is containerized for easy deployment.
+```bash
+docker build -t mlops-project .
+docker run -p 8000:8000 mlops-project
+```
+
 ## 📁 Project Structure
 
     src/: Modular source code (data loading, preprocessing, training).
@@ -82,4 +102,8 @@ The training pipeline is fully integrated with MLflow to track hyperparameters (
     data/: Dataset storage.
 
     .pre-commit-config.yaml: Hooks configuration.
+
+    models/: Saved model artifacts.
+
+    mlruns/: MLflow experiment data (ignored by Git).
 >>>>>>> Stashed changes
