@@ -5,7 +5,7 @@
 # ============================================================
 
 # ── Base image shared by both stages ────────────────────────
-FROM python:3.11-slim AS base
+FROM python:3.12-slim AS base
 
 # Keeps Python from buffering stdout/stderr
 ENV PYTHONUNBUFFERED=1 \
@@ -42,12 +42,14 @@ RUN uv sync --frozen --no-dev
 # Copy source
 COPY src/ ./src/
 
+# Copy models
+COPY models/ ./models/
+
 # Expose FastAPI port
 EXPOSE 8000
 
 # Environment variables (override at runtime)
-ENV MLFLOW_TRACKING_URI=http://mlflow:5000 \
-    MODEL_URI=models:/lstm-pollution/Production
+ENV LOCAL_MODEL_PATH=/app/models
 
 # Start the API server
-CMD ["uv", "run", "uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "python", "-m", "uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "8000"]
