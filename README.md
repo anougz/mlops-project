@@ -1,109 +1,137 @@
-# Air Pollution Forecasting - MLOps Project🚀
+# Air Pollution Forecasting - MLOps Project 🚀
 *A project developed as part of the MLOps course - Winter 2026*
 
 ## 👥 Team Members
-* **Aurélien Nougarou(@anougz)**
+* **Aurélien Nougarou (@anougz)**
 * **Nicolas Barthollet (@nicolasbartho)**
 
 ---
 
 ## 📝 Project Description
-This project will focus on a basic MLOps pipeline addressing pollution in Beijing, using the corresponding dataset, and define different machine learning model where we can predict de value of pollution (Y) in function of the others variables (X).
+This project implements a complete MLOps pipeline to forecast air pollution levels in Beijing. We utilize a multivariate time series dataset to predict future PM2.5 concentrations based on historical weather and environmental variables.
 
 ## 🎯 Task Definition
-* **Type of problem**: Time series regression (Time Series Forecasting)
-* **Objective**:  Predict pollution levels at time t+1 using data from previous hours.
-* **Target metric (variables)**: Pollution, Dew, Temperature (temp), Pressure (press), Wind direction (wnd_dir), Wind speed (wnd_spd), Snow (snow), Rain (rain).
+* **Type of problem**: Time series regression (Multivariate Forecasting).
+* **Objective**: Predict pollution levels (PM2.5) at time $t+1$ using data from previous hours.
+* **Input features**: Dew point, Temperature, Pressure, Wind direction, Wind speed, Snow, and Rain.
 
-## 📊 Data Source (Dataset)
-* **Name**: Air Pollution Forecasting - LSTM Multivariate
-* **Source**: https://www.kaggle.com/datasets/rupakroy/lstm-datasets-multivariate-univariate/data
-* **Quick description**:This is a dataset that reports on the weather and the level of pollution each hour for five years at the US embassy in Beijing, China.
+## 📊 Data Source
+* **Dataset**: Air Pollution Forecasting - LSTM Multivariate.
+* **Source**: [Kaggle Dataset](https://www.kaggle.com/datasets/rupakroy/lstm-datasets-multivariate-univariate/data).
+* **Description**: Hourly weather and pollution records for five years from the US Embassy in Beijing, China.
 
-The data includes the date-time, the pollution called PM2.5 concentration, and the weather information including dew point, temperature, pressure, wind direction, wind speed and the cumulative number of hours of snow and rain.
+---
+
+## 🏗️ System Architecture
+The system is built with a modular architecture to ensure scalability and reproducibility:
+1.  **Data Layer**: Raw data ingestion and preprocessing (handling missing values, normalization).
+2.  **Experiment Layer**: Training scripts integrated with **MLflow** for tracking.
+3.  **Model Registry**: Storage of serialized model artifacts (`.pkl`).
+4.  **Serving Layer**: **FastAPI** application containerized with **Docker**.
+5.  **CI/CD Layer**: **GitHub Actions** for automated testing and quality enforcement.
+
+---
+
+## ⚙️ MLOps Practices
+This project follows industry-standard MLOps principles:
+* **Dependency Management**: Powered by `uv` for lightning-fast and deterministic environments.
+* **Code Quality**: Automated linting and formatting via **Ruff**.
+* **Reproducibility**: Version-controlled environments (`uv.lock`) and containerization (**Docker**).
+* **Continuous Integration**: Automated testing suite triggered on every push to ensure code and API stability.
+* **Experiment Tracking**: Systematic logging of every training run (hyperparameters, metrics, and models) using **MLflow**.
 
 ---
 
 ## 🛠️ Installation & Setup
-This project uses **UV** for fast and reproducible dependency management.
 
 ### Prerequisites
-* Python 3.12+
-* [UV](https://docs.astral.sh/uv/) installed on your machine.
+* Python 3.12 (Recommended)
+* [UV](https://docs.astral.sh/uv/) installed.
 
-### Installation
+### Setup
 1. Clone the repo:
 ```bash
-   git clone [https://github.com/anougz/mlops-project.git](https://github.com/your-account/your-repo.git)
-   cd your-repo
-<<<<<<< Updated upstream
-=======
-   uv sync
-   uv run pre-commit install
+git clone https://github.com/anougz/mlops-project.git
+cd mlops-project
 ```
+
+2. Setup environment and hooks:
+```bash
+uv sync
+uv run pre-commit install
+```
+
+---
 
 ## 🧪 Testing & Quality Assurance
 
-We use pytest for unit testing and pytest-cov for coverage analysis.
+We use `pytest` for unit testing and `pytest-cov` for coverage analysis.
 
-    Current Coverage: 63%
+* **Current Coverage**: 63%
+* **Pre-commit Hooks**: Enforces code quality and formatting before every commit.
 
-    Linting: Automated with Ruff.
-
-    Pre-commit Hooks: Enforces code quality, formatting, and end-of-file consistency before every commit.
-
-To run tests and see the coverage report:
-Bash
-
+Run tests:
+```bash
 uv run pytest --cov=src tests/
+```
+
+---
 
 ## 📊 Experiment Tracking (MLflow)
 
-The training pipeline is fully integrated with MLflow to track hyperparameters (test size, model type) and metrics (RMSE, R2).
+Run Training:
+```bash
+uv run python -m src.train
+```
 
-    Run Training:
-    Bash
+Visualize Results:
+```bash
+uv run mlflow ui
+```
 
-    uv run python src/train.py
+Access the dashboard at http://localhost:5000.
 
-    Visualize Results:
-    Bash
-
-    uv run mlflow ui
-
-    Access the dashboard at http://localhost:5000.
+---
 
 ## 🔌 API & Deployment
 
-The project includes a FastAPI application for real-time model inference.
-
-1. Serve the API locally:
-```PowerShell
-$env:LOCAL_MODEL_PATH="models/model.pkl"
+### 1. Serve the API locally:
+```powershell
+$env:LOCAL_MODEL_PATH="models/your_model.pkl"
 uv run python -m uvicorn src.api:app --reload
 ```
 
-2. API Documentation:
-Once the server is running, access the interactive Swagger UI at http://localhost:8000/docs.
-
-3. Docker Support:
-The application is containerized for easy deployment.
+### 2. Docker Support:
 ```bash
-docker build -t mlops-project .
-docker run -p 8000:8000 mlops-project
+docker build -t pollution-api .
+docker run -p 8000:8000 pollution-api
 ```
+
+---
+
+## 📈 Monitoring & Reliability
+
+Our monitoring strategy focuses on two main axes:
+
+* **Data Drift Detection**: Periodic comparison of incoming feature distributions against training data statistics to identify when the model needs retraining.
+* **Health Checks**: The API includes a `/health` endpoint to monitor service uptime and model loading status.
+* **Performance Tracking**: Monitoring prediction error (RMSE) in production by comparing forecasts with delayed actual observations.
+
+---
+
+## 🚧 Limitations & Future Work
+
+* **Data Latency**: Currently, the model assumes real-time availability of weather data, which might not be the case in real-world sensors.
+* **Advanced Models**: Future work involves implementing Transformer-based architectures or XGBoost to compare against the current baseline.
+* **Automated Retraining**: Implementing a "CD" (Continuous Deployment) trigger that retrains the model automatically when data drift is detected.
+
+---
 
 ## 📁 Project Structure
 
-    src/: Modular source code (data loading, preprocessing, training).
-
-    tests/: Unit and integration tests.
-
-    data/: Dataset storage.
-
-    .pre-commit-config.yaml: Hooks configuration.
-
-    models/: Saved model artifacts.
-
-    mlruns/: MLflow experiment data (ignored by Git).
->>>>>>> Stashed changes
+* `src/`: Modular source code (data loading, preprocessing, training, API).
+* `tests/`: Unit and integration tests.
+* `data/`: Local dataset storage.
+* `.github/workflows/`: CI/CD pipeline configurations.
+* `models/`: Serialized model artifacts.
+* `mlruns/`: MLflow experiment metadata.
