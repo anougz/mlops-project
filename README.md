@@ -135,3 +135,6 @@ Our monitoring strategy focuses on two main axes:
 * `.github/workflows/`: CI/CD pipeline configurations.
 * `models/`: Serialized model artifacts.
 * `mlruns/`: MLflow experiment metadata.
+
+## 📷 Demo Video
+link : https://drive.google.com/file/d/14V5OGh8cKuFTmTIMrkbfnLVXkNRcIVMX/view
